@@ -23,7 +23,10 @@ public class EnemyMovement : MonoBehaviour
     private void UpdateDestination()
     {
         if (_enemyHealth.currentHealth > 0 && _playerHealth.currentHealth > 0)
-            _agent.SetDestination(_playerTransform.position);
+        {
+            if(_agent.isOnNavMesh && _agent.enabled)
+                _agent.SetDestination(_playerTransform.position);
+        }
         else
             _agent.enabled = false;
     }

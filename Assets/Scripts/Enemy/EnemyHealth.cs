@@ -69,12 +69,11 @@ public class EnemyHealth : MonoBehaviour
 
     void Death ()
     {
+        _agent.enabled = false;
+        _rb.isKinematic = true;
         isDead = true;
-
         capsuleCollider.isTrigger = true;
-
         anim.SetTrigger ("Dead");
-
         enemyAudio.clip = deathClip;
         enemyAudio.Play ();
     }
@@ -82,8 +81,6 @@ public class EnemyHealth : MonoBehaviour
 
     public void StartSinking ()
     {
-        _agent.enabled = false;
-        _rb.isKinematic = true;
         isSinking = true;
         //ScoreManager.score += stat.scoreValue;
         ScoreManager.UpdateScore(stat.scoreValue); // _TV_
@@ -100,13 +97,15 @@ public class EnemyHealth : MonoBehaviour
     IEnumerator DeactivateRoutine(float delay)
     { 
         yield return new WaitForSeconds(delay);
-
+        _objectPool.Release(this);
+    }
+    public void ReactivateAgent()
+    {
         isDead = false;
-        _agent.enabled = true;
         _rb.isKinematic = false;
         isSinking = false;
         currentHealth = stat.startingHealth;
-
-        _objectPool.Release(this);
+        capsuleCollider.isTrigger = false;
+        _agent.enabled = true;
     }
 }

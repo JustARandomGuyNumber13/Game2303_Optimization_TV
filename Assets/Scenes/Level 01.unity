@@ -39,7 +39,6 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.45061505, g: 0.498609, b: 0.56437516, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1298,7 +1297,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4735207576911020, guid: 9e3e72cd89ef44f97afe08f9baaabc18, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.089999914
+      value: 0.07
       objectReference: {fileID: 0}
     - target: {fileID: 4735207576911020, guid: 9e3e72cd89ef44f97afe08f9baaabc18, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1933,8 +1932,8 @@ MonoBehaviour:
     type: 3}
   spawnTime: 3
   spawnPoint: {fileID: 1456155940}
-  enemyDefaultAmount: 1
-  enemyMaxAmount: 1
+  enemyDefaultAmount: 5
+  enemyMaxAmount: 20
 --- !u!4 &2135234548
 Transform:
   m_ObjectHideFlags: 0
@@ -1957,7 +1956,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2135234546}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 76a99222b1e4a384e923ac7e86efc709, type: 3}
   m_Name: 
@@ -1968,7 +1967,7 @@ MonoBehaviour:
   spawnTime: 10
   spawnPoint: {fileID: 694235421}
   enemyDefaultAmount: 5
-  enemyMaxAmount: 6
+  enemyMaxAmount: 20
 --- !u!114 &2135234550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1976,7 +1975,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2135234546}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 76a99222b1e4a384e923ac7e86efc709, type: 3}
   m_Name: 
@@ -1987,7 +1986,7 @@ MonoBehaviour:
   spawnTime: 3
   spawnPoint: {fileID: 1084502847}
   enemyDefaultAmount: 5
-  enemyMaxAmount: 6
+  enemyMaxAmount: 20
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

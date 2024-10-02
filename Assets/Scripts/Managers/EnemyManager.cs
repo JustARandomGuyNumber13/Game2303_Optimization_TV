@@ -19,14 +19,12 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] int enemyMaxAmount;
 
     private NavMeshAgent _agent;
-    private EnemyMovement _enemyMovement;
     int count = 0;
 
     private void Awake()
     {
         _objectPool = new ObjectPool<EnemyHealth>(CreateEnemy, OnGetFromPool, OnReleaseToPool, OnDestroyPoolObject, false, enemyDefaultAmount, enemyMaxAmount);
         _agent = GetComponent<NavMeshAgent>();
-        _enemyMovement = GetComponent<EnemyMovement>();
     }
     void Start()
     {
@@ -34,7 +32,7 @@ public class EnemyManager : MonoBehaviour
     }
 
 
-    private void Spawn()    // new mechanic to nm _TV_
+    private void Spawn()    // _TV_
     {
         if (playerHealth.currentHealth > 0 && count < enemyMaxAmount)
         {
@@ -54,15 +52,13 @@ public class EnemyManager : MonoBehaviour
         if (!poolObject.gameObject.activeInHierarchy)
         {
             poolObject.transform.SetPositionAndRotation(spawnPoint.position, spawnPoint.rotation);
-            _agent.enabled = true;
-            _agent.isStopped = true;
-            _agent.ResetPath();    
+            poolObject.ReactivateAgent();
         }
         poolObject.gameObject.SetActive (true);
     }
     private void OnReleaseToPool(EnemyHealth poolObject)    // _TV_
     {
-        _enemyMovement.enabled = false;
+        count--;
         poolObject.gameObject.SetActive(false);
     }
     private void OnDestroyPoolObject(EnemyHealth poolObject)    // _TV_
