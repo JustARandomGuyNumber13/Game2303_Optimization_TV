@@ -12,6 +12,7 @@ public class EnemyAttack : MonoBehaviour
     EnemyHealth enemyHealth;
     bool playerInRange;
     float timer;
+    private readonly int playerDieTriggerHash = Animator.StringToHash(("PlayerDead");
 
 
     void Awake ()
@@ -52,7 +53,7 @@ public class EnemyAttack : MonoBehaviour
 
         if (playerHealth.currentHealth <= 0)
         {
-            anim.SetTrigger("PlayerDead");
+            anim.SetTrigger(playerDieTriggerHash);
         }
     }
 
@@ -66,27 +67,4 @@ public class EnemyAttack : MonoBehaviour
             playerHealth.TakeDamage(stat.attackDamage);
         }
     }
-
-    //private void OnTriggerStay(Collider other)
-    //{
-    //    if (other.gameObject == player)
-    //        if (timer == stat.timeBetweenAttacks && enemyHealth.currentHealth > 0)
-    //            Attack();
-    //}
-
-    //void Attack()
-    //{
-    //    timer = 0f;
-
-    //    if (playerHealth.currentHealth > 0)
-    //    {
-    //        playerHealth.TakeDamage(stat.attackDamage);
-    //    }
-    //    Invoke("ResetTimer", stat.timeBetweenAttacks);
-    //}
-
-    //void ResetTimer()
-    //{
-    //    timer = stat.timeBetweenAttacks;
-    //}
 }

@@ -4,7 +4,6 @@ using System.Collections;
 
 public class ScoreManager : MonoBehaviour
 {
-    //public static int score;
     static int score;
     static string _scoreText;
     static Text text;
@@ -24,9 +23,4 @@ public class ScoreManager : MonoBehaviour
         _scoreText = "Score: " + score;
         text.text = _scoreText;
     }
-
-    //void Update ()
-    //{
-    //    text.text = "Score: " + score;    // Create a new string every frame, cause to generate GC Allocate _TV_
-    //}
 }

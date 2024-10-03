@@ -11,37 +11,23 @@ public class EnemyMovement : MonoBehaviour
 
     private void Awake()
     {
-        _playerTransform = GameObject.FindWithTag("Player").transform;  // Lighter than FindObjectOfType<> since tag was used in the Inspector, could have used GameObject.Find() but I prefer tag _TV_
+        _playerTransform = GameObject.FindWithTag("Player").transform;
         _playerHealth = _playerTransform.GetComponent<PlayerHealth>();
         _agent = GetComponent<NavMeshAgent>();
         _enemyHealth = GetComponent<EnemyHealth>();
     }
     private void Start()
     {
-        InvokeRepeating("UpdateDestination", 0f, 0.2f); // Custom update function for this case _TV_
+        InvokeRepeating("UpdateDestination", 0f, 0.2f);
     }
     private void UpdateDestination()
     {
         if (_enemyHealth.currentHealth > 0 && _playerHealth.currentHealth > 0)
         {
-            if(_agent.isOnNavMesh && _agent.enabled)
+            if(_agent.isOnNavMesh && _agent.enabled)    // Prevent trying to move when is being reuse/deactivated, and to not disable agent component 
                 _agent.SetDestination(_playerTransform.position);
         }
         else
             _agent.enabled = false;
     }
-
-    //void Update ()
-    //{
-    //    Transform player = FindObjectOfType<PlayerMovement>().transform;
-
-    //    if (GetComponent<EnemyHealth>().currentHealth > 0 && player.GetComponent<PlayerHealth>().currentHealth > 0)
-    //    {
-    //        GetComponent<NavMeshAgent>().SetDestination (player.position);
-    //    }
-    //    else
-    //    {
-    //        GetComponent<NavMeshAgent>().enabled = false;
-    //    }
-    //}
 }

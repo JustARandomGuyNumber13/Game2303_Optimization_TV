@@ -22,6 +22,7 @@ public class EnemyHealth : MonoBehaviour
     CapsuleCollider capsuleCollider;
     bool isDead;
     bool isSinking;
+    private readonly int dieTriggerHash = Animator.StringToHash("Dead");
 
 
     void Awake ()
@@ -30,15 +31,12 @@ public class EnemyHealth : MonoBehaviour
         enemyAudio = GetComponent <AudioSource> ();
         hitParticles = GetComponentInChildren <ParticleSystem> ();
         capsuleCollider = GetComponent <CapsuleCollider> ();
-        _myTransform = transform;
-        _particalTransform = hitParticles.transform;
         _agent = GetComponent <NavMeshAgent> ();
         _rb = GetComponent <Rigidbody> ();
-
+        _myTransform = transform;
+        _particalTransform = hitParticles.transform;
         currentHealth = stat.startingHealth;
     }
-
-
     void Update ()
     {
         if(isSinking)
@@ -65,41 +63,27 @@ public class EnemyHealth : MonoBehaviour
             Death ();
         }
     }
-
-
     void Death ()
     {
         _agent.enabled = false;
         _rb.isKinematic = true;
         isDead = true;
         capsuleCollider.isTrigger = true;
-        anim.SetTrigger ("Dead");
+        anim.SetTrigger (dieTriggerHash);
         enemyAudio.clip = deathClip;
         enemyAudio.Play ();
     }
-
-
     public void StartSinking ()
     {
         isSinking = true;
-        //ScoreManager.score += stat.scoreValue;
         ScoreManager.UpdateScore(stat.scoreValue); // _TV_
-        //Destroy (gameObject, 2f);
-        Deactivate();
+        Invoke("Deactivate", 2f);
     }
-
-    private void Deactivate() // _TV_
+    private void Deactivate()
     {
-        StartCoroutine(DeactivateRoutine(2f));
-    }
-
-    /* Deactivate and reset this enemy stats for pooling system */ //_TV_
-    IEnumerator DeactivateRoutine(float delay)
-    { 
-        yield return new WaitForSeconds(delay);
         _objectPool.Release(this);
     }
-    public void ReactivateAgent()
+    public void ReactivateEnemy()   // For pooling system to use _TV_
     {
         isDead = false;
         _rb.isKinematic = false;

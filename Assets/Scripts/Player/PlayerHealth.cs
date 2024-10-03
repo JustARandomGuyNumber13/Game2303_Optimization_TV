@@ -6,13 +6,13 @@ using UnityEngine.SceneManagement;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public int startingHealth = 100;
-    public int currentHealth;
-    public Slider healthSlider;
-    public Image damageImage;
-    public AudioClip deathClip;
-    public float flashSpeed = 5f;
-    public Color flashColour = new Color(1f, 0f, 0f, 0.1f);
+    [SerializeField] int startingHealth = 100;
+    public int currentHealth { get; private set; }
+    [SerializeField] Slider healthSlider;
+    [SerializeField] Image damageImage;
+    [SerializeField] AudioClip deathClip;
+    [SerializeField] float flashSpeed = 5f;
+    [SerializeField] Color flashColour = new Color(1f, 0f, 0f, 0.1f);
 
 
     Animator anim;
@@ -20,8 +20,7 @@ public class PlayerHealth : MonoBehaviour
     PlayerMovement playerMovement;
     PlayerShooting playerShooting;
     bool isDead;
-    bool damaged;
-
+    private readonly int dieTriggerHash = Animator.StringToHash("Die");
 
     void Awake ()
     {
@@ -33,24 +32,20 @@ public class PlayerHealth : MonoBehaviour
     }
 
 
-    void Update ()
+    private IEnumerator TakeDamageColorChangeCoroutine()    // Event/trigger type for color change instead of keep asking for it to change in update _TV_
     {
-        if(damaged)
+        damageImage.color = flashColour;
+
+        while (damageImage.color != Color.clear)
         {
-            damageImage.color = flashColour;
+            damageImage.color = Color.Lerp(damageImage.color, Color.clear, flashSpeed * Time.deltaTime);
+            yield return null;  
         }
-        else
-        {
-            damageImage.color = Color.Lerp (damageImage.color, Color.clear, flashSpeed * Time.deltaTime);
-        }
-        damaged = false;
     }
-
-
-    public void TakeDamage (int amount)
+    public void TakeDamage (int amount) // Not sure what to do since this already is an event/trigger type _TV_
     {
-        damaged = true;
-
+        StopCoroutine(TakeDamageColorChangeCoroutine());
+        StartCoroutine(TakeDamageColorChangeCoroutine());
         currentHealth -= amount;
 
         healthSlider.value = currentHealth;
@@ -62,15 +57,13 @@ public class PlayerHealth : MonoBehaviour
             Death ();
         }
     }
-
-
     void Death ()
     {
         isDead = true;
 
         playerShooting.DisableEffects ();
 
-        anim.SetTrigger ("Die");
+        anim.SetTrigger (dieTriggerHash);
 
         playerAudio.clip = deathClip;
         playerAudio.Play ();
@@ -78,8 +71,6 @@ public class PlayerHealth : MonoBehaviour
         playerMovement.enabled = false;
         playerShooting.enabled = false;
     }
-
-
     public void RestartLevel ()
     {
         SceneManager.LoadScene (0);
