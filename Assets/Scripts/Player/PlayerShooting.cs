@@ -35,11 +35,6 @@ public class PlayerShooting : MonoBehaviour
     {
         timer += Time.deltaTime;
 
-        //if (Input.GetButton("Fire1") && timer >= timeBetweenBullets && Time.timeScale != 0)
-        //{
-        //    Shoot();
-        //}
-
         if (isShooting && timer >= timeBetweenBullets && Time.timeScale != 0)   // New input system check _TV_
             Shoot();
 
@@ -89,7 +84,7 @@ public class PlayerShooting : MonoBehaviour
         }
     }
 
-    private void OnShoot(InputValue value) // New input system check _TV_
+    private void OnShoot(InputValue value) // New input system  _TV_
     {
         isShooting = value.isPressed;
     }

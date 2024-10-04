@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class EnemyAttack : MonoBehaviour
 {
@@ -11,8 +12,8 @@ public class EnemyAttack : MonoBehaviour
     PlayerHealth playerHealth;
     EnemyHealth enemyHealth;
     bool playerInRange;
-    float timer;
-    private readonly int playerDieTriggerHash = Animator.StringToHash(("PlayerDead");
+    private readonly int playerDieTriggerHash = Animator.StringToHash("PlayerDead");
+    private bool _isAttacking;
 
 
     void Awake ()
@@ -22,46 +23,47 @@ public class EnemyAttack : MonoBehaviour
         enemyHealth = GetComponent<EnemyHealth>();
         anim = GetComponent <Animator> ();
     }
-
-
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject == player)
         {
             playerInRange = true;
+            if (!_isAttacking)  // Prevent calling another coroutine when one is active _TV_
+            {   
+                _isAttacking = true;
+                StartCoroutine(AttackCoroutine());
+            }
         }
     }
-
-
     void OnTriggerExit(Collider other)
     {
         if (other.gameObject == player)
-        {
             playerInRange = false;
-        }
     }
 
 
-    void Update()
+    IEnumerator AttackCoroutine()   // Change attack update to event/trigger base _TV_
     {
-        timer += Time.deltaTime;
-
-        if (timer >= stat.timeBetweenAttacks && playerInRange && enemyHealth.currentHealth > 0)
+        while (playerInRange)
         {
-            Attack();
-        }
+            if (enemyHealth.currentHealth > 0)
+            {
+                Attack();
+                if (enemyHealth.currentHealth <= 0)
+                {
+                    _isAttacking = false;
+                    anim.SetTrigger(playerDieTriggerHash);
+                    yield break;
+                }
 
-        if (playerHealth.currentHealth <= 0)
-        {
-            anim.SetTrigger(playerDieTriggerHash);
+                yield return new WaitForSeconds(stat.timeBetweenAttacks);   // Attack cool down _TV_
+            }
+            yield return null;
         }
+        _isAttacking = false;
     }
-
-
     void Attack()
     {
-        timer = 0f;
-
         if (playerHealth.currentHealth > 0)
         {
             playerHealth.TakeDamage(stat.attackDamage);

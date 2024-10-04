@@ -21,7 +21,6 @@ public class EnemyHealth : MonoBehaviour
     ParticleSystem hitParticles;
     CapsuleCollider capsuleCollider;
     bool isDead;
-    bool isSinking;
     private readonly int dieTriggerHash = Animator.StringToHash("Dead");
 
 
@@ -37,14 +36,6 @@ public class EnemyHealth : MonoBehaviour
         _particalTransform = hitParticles.transform;
         currentHealth = stat.startingHealth;
     }
-    void Update ()
-    {
-        if(isSinking)
-        {
-            _myTransform.Translate (-Vector3.up * stat.sinkSpeed * Time.deltaTime);
-        }
-    }
-
 
     public void TakeDamage (int amount, Vector3 hitPoint)
     {
@@ -75,21 +66,29 @@ public class EnemyHealth : MonoBehaviour
     }
     public void StartSinking ()
     {
-        isSinking = true;
         ScoreManager.UpdateScore(stat.scoreValue); // _TV_
+        StartCoroutine(SinkCourountine());
         Invoke("Deactivate", 2f);
     }
     private void Deactivate()
     {
+        StopCoroutine(SinkCourountine());
         _objectPool.Release(this);
     }
     public void ReactivateEnemy()   // For pooling system to use _TV_
     {
         isDead = false;
         _rb.isKinematic = false;
-        isSinking = false;
         currentHealth = stat.startingHealth;
         capsuleCollider.isTrigger = false;
         _agent.enabled = true;
+    }
+    IEnumerator SinkCourountine()   // Change Sink action to event/trigger base
+    {
+        while (true)
+        {
+            _myTransform.Translate(-Vector3.up * stat.sinkSpeed * Time.deltaTime);
+            yield return null;
+        }
     }
 }
