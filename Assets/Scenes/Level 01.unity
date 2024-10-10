@@ -1298,7 +1298,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4735207576911020, guid: 9e3e72cd89ef44f97afe08f9baaabc18, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4735207576911020, guid: 9e3e72cd89ef44f97afe08f9baaabc18, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1541,7 +1541,7 @@ Transform:
   m_GameObject: {fileID: 1830089837}
   serializedVersion: 2
   m_LocalRotation: {x: 0.2588191, y: 0, z: 0, w: 0.9659258}
-  m_LocalPosition: {x: 1, y: 18.25, z: -22}
+  m_LocalPosition: {x: 1, y: 13.25, z: -22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1932,9 +1932,9 @@ MonoBehaviour:
   enemyPrefab: {fileID: 114491779595983746, guid: 4e3b7f611582d4dc7a9dd318242ed5e3,
     type: 3}
   spawnPoint: {fileID: 1456155940}
-  spawnTime: 0.5
+  spawnTime: 3
   enemyDefaultAmount: 20
-  enemyMaxAmount: 60
+  enemyMaxAmount: 40
 --- !u!4 &2135234548
 Transform:
   m_ObjectHideFlags: 0
@@ -1966,8 +1966,8 @@ MonoBehaviour:
   enemyPrefab: {fileID: 114153904350160260, guid: ebed7a3ef4be5458fb88a3c3a689c566,
     type: 3}
   spawnPoint: {fileID: 694235421}
-  spawnTime: 0.5
-  enemyDefaultAmount: 20
+  spawnTime: 10
+  enemyDefaultAmount: 10
   enemyMaxAmount: 20
 --- !u!114 &2135234550
 MonoBehaviour:
@@ -1985,9 +1985,9 @@ MonoBehaviour:
   enemyPrefab: {fileID: 114858573952562612, guid: 78e1368557eab4d62a5487e98c1b5c5f,
     type: 3}
   spawnPoint: {fileID: 1084502847}
-  spawnTime: 0.5
+  spawnTime: 3
   enemyDefaultAmount: 20
-  enemyMaxAmount: 60
+  enemyMaxAmount: 40
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

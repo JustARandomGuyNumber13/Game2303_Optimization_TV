@@ -37,6 +37,26 @@ public class PlayerMovement : MonoBehaviour
         movement = movement.normalized * speed * Time.deltaTime;
         playerRigidbody.MovePosition(transform.position + movement);
     }
+
+    /* _TV_ What I think this funciton does:
+    Cast a ray from camera position to the mouse position on the screen
+    Check if the ray hit the ground collider
+    Calculate the direction to look from player toward the hit point of the ray
+    Rotate player to look to that point
+
+    => The closer the player to the ground, the easier to rotate ( rotate wider )
+
+    Possible solution:
+    + Create an object with trigger, use this object as a ray to lower the cost
+    + On this trigger object, you can return a "replacement of RaycastHit floorHit", which is Vector3 floorHit, exp:
+
+    void OnTriggerStay(Collider other) {
+        if(other == floorCollider)
+            Vector3 floorHit = other.ClosestPoint(transform.position);
+    }
+
+    Finally, get a reference of this new floorHit   => More complicate but cost less
+     */
     void Turning()  // This method cost too heavy to run because of raycast _TV_
     {
         Ray camRay = _cam.ScreenPointToRay(Input.mousePosition);

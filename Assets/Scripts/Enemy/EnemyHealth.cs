@@ -15,6 +15,7 @@ public class EnemyHealth : MonoBehaviour
     private Rigidbody _rb;
     private Transform _myTransform; 
     private Transform _particalTransform;
+    private AudioClip _hurtClip;
 
     Animator anim;
     AudioSource enemyAudio;
@@ -35,6 +36,7 @@ public class EnemyHealth : MonoBehaviour
         _myTransform = transform;
         _particalTransform = hitParticles.transform;
         currentHealth = stat.startingHealth;
+        _hurtClip = enemyAudio.clip;
     }
 
     public void TakeDamage (int amount, Vector3 hitPoint)
@@ -82,6 +84,7 @@ public class EnemyHealth : MonoBehaviour
         currentHealth = stat.startingHealth;
         capsuleCollider.isTrigger = false;
         _agent.enabled = true;
+        enemyAudio.clip = _hurtClip;    // Reset audio clip
     }
     IEnumerator SinkCourountine()   // Change Sink action to event/trigger base
     {
